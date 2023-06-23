@@ -1,0 +1,16 @@
+.App{
+    height: 100vh;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    background: url("/src/assets/images/leaf.jpg");
+    /* background-position: center; */
+    position: relative;
+}
+
+.App::before{
+    content: none;
+    position: absolute;
+    background-color: #111;
+    opacity: 0.8;
+}
