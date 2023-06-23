@@ -1,17 +1,19 @@
-import { useState } from "react";
 import axios from "axios";
-import {useNavigate} from 'react-router-dom';
+import { useContext, useState} from "react";
+import { StateContext } from "../../contexts/StateContext";
+import { useNavigate } from "react-router-dom";
 import "./login.css"; // Import the CSS file for the component
 // import {MdAccountCircle} from 'react-icons/md'
 import { MdAccountCircle } from "react-icons/md";
 import { BiSolidLock } from "react-icons/bi";
 import { BsFillPersonFill } from "react-icons/bs";
-const Login = () => {
-  const [regNo, setUsername] = useState("");
+const WardenLogin = () => {
+  const { warden, setWarden } = useContext(StateContext);
+  const [block, setBlock] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+  const handleBlockChange = (event) => {
+    setBlock(event.target.value);
   };
 
   const handlePasswordChange = (event) => {
@@ -22,23 +24,25 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     // Perform login logic here, e.g., send username and password to the server
-    console.log("Username:", regNo);
+    console.log("Username:", block);
     console.log("Password:", password);
-    axios.post(`http://localhost:8000/api/v1/student/auth/login`, {
-      regNo,
-      password
-  })
-  .then(function (response) {
-      console.log(response);
-      if(response){
-        navigate("/");
-      }
-  })
-  .catch((err) => {
-      console.log(err);
-  });
+    axios
+      .post(`http://localhost:8000/api/v1/warden/auth/login`, {
+        block,
+        password,
+      })
+      .then(function (response) {
+        console.log(response);
+        if (response) {
+          setWarden(response.data.token)
+          navigate("/warden");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     // Reset the form
-    setUsername("");
+    setBlock("");
     setPassword("");
   };
 
@@ -53,18 +57,18 @@ const Login = () => {
           color: "#064635",
         }}
       />
-      <h2>Student Login</h2>
+      <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="username">
+          <label htmlFor="Block">
             <BsFillPersonFill className="icon" />
           </label>
           <input
             type="text"
-            id="username"
-            value={regNo}
-            placeholder="Registration Number"
-            onChange={handleUsernameChange}
+            id="Block"
+            placeholder="Block"
+            value={block}
+            onChange={handleBlockChange}
           />
         </div>
         <div className="form-group">
@@ -79,10 +83,11 @@ const Login = () => {
             onChange={handlePasswordChange}
           />
         </div>
+        
         <button type="submit">Login</button>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default WardenLogin;
