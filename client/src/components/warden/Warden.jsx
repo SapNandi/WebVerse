@@ -1,83 +1,58 @@
 import axios from "axios";
 import { useContext } from "react";
 import { StateContext } from "../../contexts/StateContext";
-import { FaCamera } from "react-icons/fa";
+// import { FaCamera } from "react-icons/fa";
 import "./warden.css";
+// import Navbar from "../navbar/Navbar";
+import { useState } from "react";
+// import { useEffect } from "react";
 
 const Warden = () => {
+  const [user, setUser] = useState("");
   const { warden } = useContext(StateContext);
-  console.log(warden);
-  axios
-    .get("http://localhost:8000/api/v1/warden/me/", {
-      headers: { Authorization: `Bearer ${warden}` },
+  console.log(warden.data.name);
+
+  axios.get("http://localhost:8000/api/v1/warden/me/", {
+      headers: { Authorization: `Bearer ${warden.token}` },
     })
     .then((res) => {
-      console.log(res);
+      setUser(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
     });
   return (
     <>
-      <div className="profile">
-        <div className="profile-bg"></div>
-        <section className="container">
-          <aside className="profile-image">
-            <a className="camera" href="#">
-              <FaCamera />
-            </a>
-          </aside>
-          <section className="profile-info">
-            <h1 className="first-name">Angela</h1>
-            <h1 className="second-name">Yun He</h1>
-            <h2>ABOUT</h2>
-            <p>
-             
-            </p>
+      <div className="wardenPage">
+        <nav className="navbar">
+          <span className="navbar-toggle" id="js-navbar-toggle">
+            <i className="fas fa-bars"></i>
+          </span>
 
-            <aside className="social-media-icons">
-              <a
-                href="https://twitter.com/zephybite"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FaCamera />
+          <a className="navbar-brand" href="#">
+            {warden.data.name}
+            <small className="navbar-brandtag">BLOCK:{warden.data.block}</small>
+          </a>
+
+          <ul className="main-nav" id="js-menu">
+            <li>
+              <a href="#" className="nav-links">
+                Complaints
               </a>
-              <a
-                href="https://codepen.io/zephyo"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FaCamera />
+            </li>
+            <li>
+              <a href="#" className="nav-links">
+                Leaves
               </a>
-              <a
-                href="https://github.com/zephyo"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FaCamera />
+            </li>
+            <li>
+              <a href="#" className="nav-links">
+                Rooms
               </a>
-              <a
-                href="https://medium.com/@zephyo"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FaCamera />
-              </a>
-            </aside>
-          </section>
-        </section>
-        <section className="statistics">
-          <button className="icon arrow left"></button>
-          <button className="icon arrow right"></button>
-          <p>
-            <strong>29</strong> Followers
-          </p>
-          <p>
-            <strong>184</strong> Following
-          </p>
-          <p>
-            <strong>6</strong> Likes
-          </p>
-        </section>
-        <button className="icon close"></button>
+            </li>
+          </ul>
+        </nav>
+        <div className="sidebar"></div>
       </div>
     </>
   );

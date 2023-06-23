@@ -34,7 +34,7 @@ const WardenLogin = () => {
       .then(function (response) {
         console.log(response);
         if (response) {
-          setWarden(response.data.token)
+          setWarden(response.data)
           navigate("/warden");
         }
       })

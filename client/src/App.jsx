@@ -11,10 +11,11 @@ import WardenLogin from "./components/login/wardenLogin";
 import FacultyLogin from "./components/login/facultyLogin";
 export default function App() {
   const [warden, setWarden] = useState("");
+  const [stud, setStud] = useState("");
   return (
     <>
       <div className="App">
-        <StateContext.Provider value={{ warden, setWarden }}>
+        <StateContext.Provider value={{ warden, setWarden , stud , setStud }}>
           <Router>
             <Routes>
               <Route path="/" element={<Home />} />

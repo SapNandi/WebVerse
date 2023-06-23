@@ -1,6 +1,6 @@
 import "./navbar.css";
-
-function Navbar() {
+import PropTypes from 'prop-types';
+function Navbar(props) {
   return (
     <nav className="navbar">
       <span className="navbar-toggle" id="js-navbar-toggle">
@@ -18,7 +18,7 @@ function Navbar() {
       </a>
 
       <a href="#" className="logo">
-        FUNDRAISER
+        {props.title}
       </a>
       <ul className="main-nav" id="js-menu">
         <li>
@@ -40,5 +40,8 @@ function Navbar() {
     </nav>
   );
 }
+Navbar.propTypes = {
+  title: PropTypes.string.isRequired,
+};
 
 export default Navbar;
